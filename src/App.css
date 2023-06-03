@@ -1,5 +1,5 @@
 .background {
   background: linear-gradient(160deg, rgb(210, 210, 248), rgb(235, 194, 255));
   padding-block: 10px;
-  min-height: 1vh;
+  min-height: 100vh;
 }

@@ -13,6 +13,7 @@ function App() {
     previous: null,
   })
   const [pokemonList, setPokemonList] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     loadList()
@@ -20,6 +21,7 @@ function App() {
 
 
   const loadList = async () => {
+    setIsLoading(true)
     const list = await getPokemonList(paginatorURLs.current)
     const pokemonsResponses = await Promise.allSettled(list.results.map(pokemon => getPokemonData(pokemon.name)))
     setPokemonList(pokemonsResponses.map(res => res.value))
@@ -28,6 +30,7 @@ function App() {
       next: list.next,
       previous: list.previous
     })
+    setIsLoading(false)
   }
 
   return (
@@ -41,7 +44,10 @@ function App() {
           onPrevious={() => setPaginatorURLs(prev => ({ current: prev.previous }))}
         />
         <div className='row row-cols-1 row-cols-md-2 row-cols-lg-4 g-3'>
-          {pokemonList.map((pokemon, key) =>
+          {
+            isLoading && <b>Loading...</b>
+          }
+          {!isLoading && pokemonList.map((pokemon, key) =>
             <div className='col' key={key}>
               <PokemonCard pokemon={pokemon} />
             </div>)
