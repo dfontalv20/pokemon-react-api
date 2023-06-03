@@ -7,26 +7,28 @@ const PokemonNavBar = ({ onNext, onPrevious, showNext, showPrevious }) => {
   return (
     <div className="navbar__container">
       {showPrevious && (
-        <div>
+        <div className="text-center" >
           <a href="#" onClick={() => onPrevious()}>
             <img
               className="navbar__paginator-icon"
               src={pokeballPrevious}
               alt="previous"
             />
+            <br />Back
           </a>
         </div>
       )}
 
       <h1 className="navbar__title">POKE-API</h1>
       {showNext && (
-        <div>
+        <div className="text-center">
           <a href="#" onClick={() => onNext()}>
             <img
               className="navbar__paginator-icon"
               src={pokeballNext}
               alt="next"
             />
+            <br />Next
           </a>
         </div>
       )}
