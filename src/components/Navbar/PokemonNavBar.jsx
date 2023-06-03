@@ -8,7 +8,7 @@ const PokemonNavBar = ({ onNext, onPrevious, showNext, showPrevious }) => {
     <div className="navbar__container">
       {showPrevious && (
         <div className="text-center" >
-          <a href="#" onClick={() => onPrevious()}>
+          <a className="text-reset fw-bold" href="#" onClick={() => onPrevious()}>
             <img
               className="navbar__paginator-icon"
               src={pokeballPrevious}
@@ -22,7 +22,7 @@ const PokemonNavBar = ({ onNext, onPrevious, showNext, showPrevious }) => {
       <h1 className="navbar__title">POKE-API</h1>
       {showNext && (
         <div className="text-center">
-          <a href="#" onClick={() => onNext()}>
+          <a className="text-reset fw-bold" href="#" onClick={() => onNext()}>
             <img
               className="navbar__paginator-icon"
               src={pokeballNext}
