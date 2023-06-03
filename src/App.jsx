@@ -1,35 +1,56 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from 'react';
+import './App.css';
+import PokemonCard from './components/Card/PokemonCard';
+import PokemonNavBar from './components/Navbar/PokemonNavBar';
+import { BASE_PATH, getPokemonData, getPokemonList } from './services/Pokemon.service';
+
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const [paginatorURLs, setPaginatorURLs] = useState({
+    current: BASE_PATH,
+    next: null,
+    previous: null,
+  })
+  const [pokemonList, setPokemonList] = useState([])
+
+  useEffect(() => {
+    loadList()
+  }, [paginatorURLs.current])
+
+
+  const loadList = async () => {
+    const list = await getPokemonList(paginatorURLs.current)
+    const pokemonsResponses = await Promise.allSettled(list.results.map(pokemon => getPokemonData(pokemon.name)))
+    setPokemonList(pokemonsResponses.map(res => res.value))
+    setPaginatorURLs({
+      current: paginatorURLs.current,
+      next: list.next,
+      previous: list.previous
+    })
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className='background'>
+      <div className='container'>
+        <PokemonNavBar
+
+          showNext={paginatorURLs.next}
+          showPrevious={paginatorURLs.previous}
+          onNext={() => setPaginatorURLs(prev => ({ current: prev.next }))}
+          onPrevious={() => setPaginatorURLs(prev => ({ current: prev.previous }))}
+        />
+        <div className='row row-cols-1 row-cols-md-2 row-cols-lg-4 g-3'>
+          {pokemonList.map((pokemon, key) =>
+            <div className='col' key={key}>
+              <PokemonCard pokemon={pokemon} />
+            </div>)
+          }
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </div>
+
+  );
 }
 
-export default App
+export default App;

@@ -18,7 +18,7 @@ const PokemonNavBar = ({ onNext, onPrevious, showNext, showPrevious }) => {
         </div>
       )}
 
-      <h1 className="navbar__title">POKE-REACT</h1>
+      <h1 className="navbar__title">POKE-API</h1>
       {showNext && (
         <div>
           <a href="#" onClick={() => onNext()}>

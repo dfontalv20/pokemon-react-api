@@ -1,4 +1,4 @@
-const BASE_PATH = "https://pokeapi.co/api/v2/pokemon/"
+export const BASE_PATH = "https://pokeapi.co/api/v2/pokemon/"
 
 export const getPokemonList = async (url = BASE_PATH) => {
     const response = await fetch(url)
